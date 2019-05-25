@@ -1,8 +1,12 @@
 package io.lundie.gradle.jokegenius;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +16,10 @@ import io.lundie.jokerpresenter.JokePresenterActivity;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static LoaderManager.LoaderCallbacks<String> enpointsLoaderCallback;
+    private static final int ENPOINTS_LOADER_ID = 1;
+
     Joker joker = new Joker();
 
     @Override
@@ -49,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void tellJoke(View view) {
+        new EndpointsAsyncTask().execute();
+        
         launchJokePresenterActivity();
         //Toast.makeText(this, joker.getJoke(), Toast.LENGTH_SHORT).show();
     }
