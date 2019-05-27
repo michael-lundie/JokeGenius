@@ -1,9 +1,7 @@
 package io.lundie.gradle.jokegenius;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Pair;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -14,8 +12,17 @@ import java.io.IOException;
 
 import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
 
-class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
+
+    private static final String LOG_TAG = EndpointsAsyncTask.class.getName();
+
     private static MyApi myApiService = null;
+
+    private AsyncCallback asyncCallback;
+
+    public EndpointsAsyncTask(AsyncCallback asyncCallback) {
+        this.asyncCallback = asyncCallback;
+    }
 
     @Override
     protected String doInBackground(Void... voids) {
@@ -44,10 +51,18 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
         }
     }
 
-
-
     @Override
     protected void onPostExecute(String result) {
+        Log.v(LOG_TAG, "QUERY result is: " + result);
+        String jokeData = result;
+        if(jokeData.isEmpty()) {
+            jokeData = "Error";
+        }
+        if(asyncCallback != null) {
+            asyncCallback.processJokeData(jokeData);
+        } else {
+            Log.e(LOG_TAG, "AsyncCallback reference was not set correctly.");
+        }
 
     }
 }
