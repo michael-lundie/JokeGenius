@@ -9,7 +9,10 @@ buildscript {
         classpath 'com.google.cloud.tools:endpoints-framework-gradle-plugin:1.0.2'
         classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.3.3'
     }
+
 }
+
+
 
 repositories {
     jcenter()
@@ -19,6 +22,11 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.google.cloud.tools.appengine'
 apply plugin: 'com.google.cloud.tools.endpoints-framework-server'
+
+appengine {
+    run.host = "0.0.0.0"
+    run.port = 8888
+}
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
