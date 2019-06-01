@@ -2,14 +2,22 @@ package io.lundie.gradle.jokegenius.viewmodel;
 
 import androidx.lifecycle.LiveData;
 
+import javax.inject.Inject;
 
 import io.lundie.gradle.jokegenius.AsyncCallback;
-import io.lundie.gradle.jokegenius.EndpointsAsyncTask;
+import io.lundie.gradle.jokegenius.EndpointsAsyncTaskFactory;
 
 public class JokeLiveData extends LiveData<String> implements AsyncCallback {
 
+    EndpointsAsyncTaskFactory taskFactory;
+
+    @Inject
+    public JokeLiveData(EndpointsAsyncTaskFactory taskFactory) {
+        this.taskFactory = taskFactory;
+    }
+
     public void loadData() {
-        new EndpointsAsyncTask(this::processJokeData).execute();
+        taskFactory.createEndpointsAsyncTask(this::processJokeData);
     }
 
     @Override
