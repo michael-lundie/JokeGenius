@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,14 +32,15 @@ public class MainActivityFragment extends Fragment {
     @Inject
     AdRequest adRequest;
 
-    @BindView(R.id.button) Button jokeButton;
+    @BindView(R.id.button) Button mJokeButton;
 
     @BindView(R.id.adView) AdView mAdView;
 
+    @BindView(R.id.endpoints_progress_bar) ProgressBar mProgressBar;
+
     private JokesViewModel viewModel;
 
-    public MainActivityFragment() {
-    }
+    public MainActivityFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +48,7 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-        configureJokeButton(jokeButton);
+        configureJokeButton(mJokeButton);
         return rootView;
     }
 
@@ -58,41 +60,31 @@ public class MainActivityFragment extends Fragment {
         this.configureViewModel();
     }
 
-    public void launchJokePresenterActivity(String jokeData) {
+    private void launchJokePresenterActivity(String jokeData) {
+        viewModel.getJokeData().removeObservers(this);
+        mProgressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), JokePresenterActivity.class);
         intent.putExtra("joke", jokeData);
         startActivity(intent);
     }
 
     private void configureJokeButton(Button button) {
-        button.setOnClickListener(view -> configureJokeObserver());
+        button.setOnClickListener(view -> {
+            mProgressBar.setVisibility(View.VISIBLE);
+            configureJokeObserver();
+        });
     }
 
     private void configureViewModel() {
         viewModel = ViewModelProviders.of(this, jokesViewModelFactory).get(JokesViewModel.class);
     }
     private void configureJokeObserver() {
-
         viewModel.getJokeData().observe(this, jokeData -> {
             // Check that observer has changed and launch a new activity vie intent.
-            // TODO: Be careful not to load multiple activities.
-            //TODO: Unregister observer on activity open, register on resume?
             if(!jokeData.isEmpty()) {
                 launchJokePresenterActivity(jokeData);
             }
         });
-
-//        viewModel.getJokeData().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(String jokeData) {
-//                // Check that observer has changed and launch a new activity vie intent.
-//                // TODO: Be careful not to load multiple activities.
-//                //TOOD: Unregister observer on activity open, register on resume?
-//                if(!jokeData.isEmpty()) {
-//                    launchJokePresenterActivity(jokeData);
-//                }
-//            }
-//        });
     }
 
     private void configureDagger(){ AndroidSupportInjection.inject(this); }

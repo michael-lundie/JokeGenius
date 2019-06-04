@@ -25,7 +25,7 @@ apply plugin: 'com.google.cloud.tools.endpoints-framework-server'
 
 appengine {
     run.host = "0.0.0.0"
-    run.port = 8888
+    run.port = 8181
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8

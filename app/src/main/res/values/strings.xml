@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Build it Bigger</string>
+    <string name="app_name">jest</string>
+    <string name="go">Laugh it up fuzzball...</string>
+    <string name="tag_line">noun. A playful remark; a witticism or joke</string>
     <string name="instructions">Push the button below to commence hilarity!</string>
     <string name="retreiving">Preparing jest. (Brace yourself!)</string>
     <string name="button_text">Tell Joke</string>
