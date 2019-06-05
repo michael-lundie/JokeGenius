@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius;
+package io.lundie.gradle.jokegenius.ui;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +14,7 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.lundie.gradle.jokegenius.R;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 

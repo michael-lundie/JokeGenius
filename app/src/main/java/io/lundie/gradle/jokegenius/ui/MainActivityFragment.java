@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius;
+package io.lundie.gradle.jokegenius.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
+import io.lundie.gradle.jokegenius.R;
 import io.lundie.gradle.jokegenius.viewmodel.JokesViewModel;
 import io.lundie.jokerpresenter.JokePresenterActivity;
 
@@ -72,6 +73,13 @@ public class MainActivityFragment extends Fragment {
         button.setOnClickListener(view -> {
             mProgressBar.setVisibility(View.VISIBLE);
             configureJokeObserver();
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
         });
     }
 

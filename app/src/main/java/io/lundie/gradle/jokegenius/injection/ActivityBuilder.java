@@ -2,7 +2,7 @@ package io.lundie.gradle.jokegenius.injection;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import io.lundie.gradle.jokegenius.MainActivity;
+import io.lundie.gradle.jokegenius.ui.MainActivity;
 import io.lundie.gradle.jokegenius.injection.modules.FragmentsModule;
 
 @Module

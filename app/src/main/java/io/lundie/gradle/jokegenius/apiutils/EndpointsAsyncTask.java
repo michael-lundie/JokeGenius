@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius;
+package io.lundie.gradle.jokegenius.apiutils;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,17 +26,19 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
             try {
                 return myApiService.getJoke().execute().getData();
             } catch (IOException e) {
-                return e.getMessage();
+                Log.e(LOG_TAG, e.getMessage());
+                return "";
             }
-        } return "Error retrieving API service.";
+        }
+        Log.e(LOG_TAG, "Error retrieving API service.");
+        return "";
     }
 
     @Override
     protected void onPostExecute(String result) {
-        Log.v(LOG_TAG, "QUERY result is: " + result);
         String jokeData = result;
         if(jokeData.isEmpty()) {
-            jokeData = "Error";
+            jokeData = "";
         }
         if(asyncCallback != null) {
             asyncCallback.processJokeData(jokeData);

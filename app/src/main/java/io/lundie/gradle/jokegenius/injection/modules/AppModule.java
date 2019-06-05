@@ -1,22 +1,16 @@
 package io.lundie.gradle.jokegenius.injection.modules;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-
-import java.io.IOException;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.lundie.gradle.jokegenius.EndpointsAsyncTaskFactory;
+import io.lundie.gradle.jokegenius.apiutils.EndpointsAsyncTaskFactory;
 import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
 import io.lundie.gradle.jokegenius.viewmodel.JokeLiveData;
 
-@Module (includes = ViewModelModule.class)
+@Module (includes = {ViewModelModule.class, ApiModule.class})
 public class AppModule {
 
     @Provides
@@ -39,23 +33,5 @@ public class AppModule {
     @Singleton
     EndpointsAsyncTaskFactory providesEndpointsAsyncTaskFactory(MyApi myApiService) {
         return new EndpointsAsyncTaskFactory(myApiService);
-    }
-
-    @Provides
-    @Singleton
-    MyApi providesMyApiService() {
-        MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                new AndroidJsonFactory(), null)
-                // options for running against local devappserver
-                // - 10.0.2.2 is localhost's IP address in Android emulator
-                // - turn off compression when running against local devappserver
-                .setRootUrl("http://192.168.0.7:8888/_ah/api/")
-                .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                    @Override
-                    public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                        abstractGoogleClientRequest.setDisableGZipContent(true);
-                    }
-                });
-        return builder.build();
     }
 }

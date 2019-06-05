@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 
 import javax.inject.Inject;
 
-import io.lundie.gradle.jokegenius.AsyncCallback;
-import io.lundie.gradle.jokegenius.EndpointsAsyncTaskFactory;
+import io.lundie.gradle.jokegenius.apiutils.AsyncCallback;
+import io.lundie.gradle.jokegenius.apiutils.EndpointsAsyncTaskFactory;
 
 public class JokeLiveData extends LiveData<String> implements AsyncCallback {
 

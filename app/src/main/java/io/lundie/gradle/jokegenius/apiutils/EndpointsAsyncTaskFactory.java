@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius;
+package io.lundie.gradle.jokegenius.apiutils;
 
 import javax.inject.Inject;
 
