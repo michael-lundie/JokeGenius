@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius.injection.modules;
+package io.lundie.gradle.injection.modules;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

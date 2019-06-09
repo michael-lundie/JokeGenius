@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius.ui;
+package io.lundie.gradnle.jokegenius.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,12 +30,7 @@ public class MainActivityFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory jokesViewModelFactory;
 
-    @Inject
-    AdRequest adRequest;
-
     @BindView(R.id.button) Button mJokeButton;
-
-    @BindView(R.id.adView) AdView mAdView;
 
     @BindView(R.id.endpoints_progress_bar) ProgressBar mProgressBar;
 
@@ -57,7 +52,6 @@ public class MainActivityFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.configureDagger();
-        mAdView.loadAd(adRequest);
         this.configureViewModel();
     }
 

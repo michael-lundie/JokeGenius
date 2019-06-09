@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius.injection.modules;
+package io.lundie.gradnle.jokegenius.injection.modules;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;

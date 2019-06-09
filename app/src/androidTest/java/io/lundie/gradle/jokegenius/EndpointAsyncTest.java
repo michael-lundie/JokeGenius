@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 import io.lundie.gradle.jokegenius.apiutils.AsyncCallback;
 import io.lundie.gradle.jokegenius.apiutils.EndpointsAsyncTask;
 import io.lundie.gradle.jokegenius.injection.modules.ApiModule;
-import io.lundie.gradle.jokegenius.injection.modules.AppModule;
 import io.lundie.gradle.jokegenius.ui.MainActivity;
 
 import static org.hamcrest.CoreMatchers.not;

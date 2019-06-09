@@ -1,4 +1,4 @@
-package io.lundie.gradle.jokegenius.ui;
+package io.lundie.gradle.injection.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
