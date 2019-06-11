@@ -1,4 +1,4 @@
-package io.lundie.gradle.injection.modules;
+package io.lundie.gradle.jokegenius.injection.modules;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
+import io.lundie.gradle.jokegenius.utilities.AppConstants;
 
 @Module
 public class ApiModule {
@@ -24,7 +25,7 @@ public class ApiModule {
                 // options for running against local devappserver
                 // - 10.0.2.2 is localhost's IP address in Android emulator
                 // - turn off compression when running against local devappserver
-                .setRootUrl("http://192.168.0.7:8888/_ah/api/")
+                .setRootUrl(AppConstants.endpointsRootURL)
                 .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                     @Override
                     public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {

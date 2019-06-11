@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             actionBar.hide();
         }
         configureDagger();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.primary_content_frame,
+                            new ActivityFragment())
+                    .commit();
+        }
     }
 
     @Override

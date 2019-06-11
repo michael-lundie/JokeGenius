@@ -1,4 +1,4 @@
-package io.lundie.gradle.injection.modules;
+package io.lundie.gradle.jokegenius.injection.modules;
 
 import com.google.android.gms.ads.AdRequest;
 
