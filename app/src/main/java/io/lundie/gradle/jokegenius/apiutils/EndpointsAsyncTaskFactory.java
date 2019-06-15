@@ -4,6 +4,12 @@ import javax.inject.Inject;
 
 import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
 
+/**
+ * Simple Factory Class for creating {@link EndpointsAsyncTask}. This factory class facilitates
+ * the ability to inject dependencies, while still creating a new AsyncTask each time an Api
+ * Request is made.
+ * TODO: Find if there is a better way to do this.
+ */
 public class EndpointsAsyncTaskFactory {
 
     private MyApi myApiService;
@@ -13,11 +19,11 @@ public class EndpointsAsyncTaskFactory {
         this.myApiService = apiService;
     }
 
+    /**
+     * Constructor for factory creation of {@link EndpointsAsyncTask}.
+     * @param asyncCallback Reference to an implementation of {@link AsyncCallback}
+     */
     public void createEndpointsAsyncTask(AsyncCallback asyncCallback) {
-        //Since an AsyncTask can only be used once, we're creating a new task every time
-        // we need to connect to our API. Using factory in order to facilitate injection
-        // of dependencies required by AsyncTask.
-        // Trying to find a better way of doing this.
         EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(myApiService, asyncCallback);
         asyncTask.execute();
     }
