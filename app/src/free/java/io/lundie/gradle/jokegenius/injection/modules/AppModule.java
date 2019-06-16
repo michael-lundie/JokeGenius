@@ -2,17 +2,11 @@ package io.lundie.gradle.jokegenius.injection.modules;
 
 import com.google.android.gms.ads.AdRequest;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import io.lundie.gradle.jokegenius.apiutils.EndpointsAsyncTaskFactory;
-import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
-import io.lundie.gradle.jokegenius.viewmodel.JokeLiveData;
 
-@Module (includes = {ViewModelModule.class, ApiModule.class})
-public class AppModule {
-
+@Module
+public class AppModule extends ExtendableAppModule {
     @Provides
     AdRequest provideAdRequest() {
         // Create an ad request. Check logcat output for the hashed device ID to
@@ -21,17 +15,5 @@ public class AppModule {
         return new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    JokeLiveData provideJokeLiveData(EndpointsAsyncTaskFactory endpointsAsyncTaskFactory) {
-        return new JokeLiveData(endpointsAsyncTaskFactory);
-    }
-
-    @Provides
-    @Singleton
-    EndpointsAsyncTaskFactory providesEndpointsAsyncTaskFactory(MyApi myApiService) {
-        return new EndpointsAsyncTaskFactory(myApiService);
     }
 }

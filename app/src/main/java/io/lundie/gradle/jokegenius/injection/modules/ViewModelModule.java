@@ -10,6 +10,10 @@ import io.lundie.gradle.jokegenius.injection.ViewModelKey;
 import io.lundie.gradle.jokegenius.viewmodel.JokesViewModel;
 import io.lundie.gradle.jokegenius.viewmodel.JokesViewModelFactory;
 
+/**
+ * Dagger module responsible for binding of {@link JokesViewModel} retrieved via an injected
+ * factory class {@link JokesViewModelFactory}.
+ */
 @Module
 public abstract class ViewModelModule {
 

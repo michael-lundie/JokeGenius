@@ -11,14 +11,19 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import dagger.Reusable;
 import io.lundie.gradle.jokegenius.backend.myApi.MyApi;
 import io.lundie.gradle.jokegenius.utilities.AppConstants;
 
+/**
+ * Dagger module responsible for creation of ApiService.
+ * Note: Endpoints root URL is configured in AppConstants.
+ */
 @Module
 public class ApiModule {
 
     @Provides
-    @Singleton
+    @Reusable
     public MyApi providesMyApiService() {
         return new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                 new AndroidJsonFactory(), null)

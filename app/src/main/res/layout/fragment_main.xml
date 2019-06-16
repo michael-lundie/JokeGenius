@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
+    android:id="@+id/rootLayout"
     tools:context="io.lundie.gradle.jokegenius.ui.ExtendableActivityFragment">
 
     <TextView

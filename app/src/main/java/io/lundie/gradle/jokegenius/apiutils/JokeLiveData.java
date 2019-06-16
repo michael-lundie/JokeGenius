@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * to report when data has successfully been loaded.
  * Improved error reporting implemented via the {@link AsyncCallback} interface.
  */
-public class JokeLiveData extends LiveData<String> implements AsyncCallback {
+public class JokeLiveData extends LiveData<String> implements AsyncCallback, AsyncFetchStatus {
 
     private EndpointsAsyncTaskFactory taskFactory;
     private MutableLiveData<FetchStatus> fetchStatusLiveData;
@@ -24,7 +24,7 @@ public class JokeLiveData extends LiveData<String> implements AsyncCallback {
     }
 
     public void loadData() {
-        taskFactory.createEndpointsAsyncTask(this);
+        taskFactory.createEndpointsAsyncTask(this, this);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class JokeLiveData extends LiveData<String> implements AsyncCallback {
     }
 
     @Override
-    public void setFetchStatus(FetchStatus fetchStatus) {
+    public void set(FetchStatus fetchStatus) {
         // Using postValue method so that status can be updated from a background thread (AsyncTask)
         fetchStatusLiveData.postValue(fetchStatus);
     }

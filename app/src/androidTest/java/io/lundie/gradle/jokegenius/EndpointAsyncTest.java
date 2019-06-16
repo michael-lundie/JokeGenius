@@ -13,10 +13,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import io.lundie.gradle.jokegenius.apiutils.AsyncCallback;
+import io.lundie.gradle.jokegenius.apiutils.AsyncFetchStatus;
 import io.lundie.gradle.jokegenius.apiutils.EndpointsAsyncTask;
+import io.lundie.gradle.jokegenius.apiutils.FetchStatus;
 import io.lundie.gradle.jokegenius.injection.modules.ApiModule;
 import io.lundie.gradle.jokegenius.ui.MainActivity;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyString;
@@ -34,13 +37,18 @@ public class EndpointAsyncTest {
      */
     @Test
     public void endpointAsyncStandAloneTest() throws ExecutionException, InterruptedException {
-        CompletableFuture<String> future = new CompletableFuture<>();
+        CompletableFuture<String> futureData = new CompletableFuture<>();
+        CompletableFuture<FetchStatus> futureStatus = new CompletableFuture<>();
 
-        AsyncCallback asyncCallback = jokeDataOutput -> future.complete(jokeDataOutput);
+        AsyncCallback asyncCallback = futureData::complete;
+        AsyncFetchStatus asyncFetchStatus = futureStatus::complete;
 
-        new EndpointsAsyncTask(new ApiModule().providesMyApiService(), asyncCallback).execute();
+        new EndpointsAsyncTask(
+                new ApiModule().providesMyApiService(), asyncCallback, asyncFetchStatus).execute();
 
-        assertThat(future.get(), not(isEmptyString()) );
-        Log.e(this.getClass().getSimpleName(), "STRING: " + future.get() );
+        assertThat(futureData.get(), not(isEmptyString()) );
+        assertThat(futureStatus.get(), is(FetchStatus.FETCH_SUCCESS));
+
+        Log.e(this.getClass().getSimpleName(), "STRING: " + futureData.get() );
     }
 }
