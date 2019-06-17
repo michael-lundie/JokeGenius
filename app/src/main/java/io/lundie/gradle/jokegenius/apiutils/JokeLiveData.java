@@ -1,5 +1,7 @@
 package io.lundie.gradle.jokegenius.apiutils;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -12,6 +14,8 @@ import javax.inject.Inject;
  * Improved error reporting implemented via the {@link AsyncCallback} interface.
  */
 public class JokeLiveData extends LiveData<String> implements AsyncCallback, AsyncFetchStatus {
+
+    private static final String LOG_TAG = EndpointsAsyncTask.class.getName();
 
     private EndpointsAsyncTaskFactory taskFactory;
     private MutableLiveData<FetchStatus> fetchStatusLiveData;
@@ -33,8 +37,14 @@ public class JokeLiveData extends LiveData<String> implements AsyncCallback, Asy
     }
 
     @Override
-    public void set(FetchStatus fetchStatus) {
+    public void post(FetchStatus fetchStatus) {
         // Using postValue method so that status can be updated from a background thread (AsyncTask)
         fetchStatusLiveData.postValue(fetchStatus);
+        Log.e(LOG_TAG, "JOKE DATA: SETTING STATUS --> " + fetchStatus);
+    }
+
+    @Override
+    public void set(FetchStatus fetchStatus) {
+        fetchStatusLiveData.setValue(fetchStatus);
     }
 }

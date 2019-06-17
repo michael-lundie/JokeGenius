@@ -45,14 +45,14 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
             try {
                 return myApiService.getJoke().execute().getData();
             } catch (IOException e) {
-                asyncFetchStatus.set(IO_EXCEPTION_ERROR);
+                asyncFetchStatus.post(IO_EXCEPTION_ERROR);
                 Log.e(LOG_TAG, e.getMessage());
                 // Note that in order to fulfill Udacity Project Rubric (re: testing), we are
                 // returning an empty string. Errors are handled through the View Model.
                 return "";
             }
         }
-        asyncFetchStatus.set(API_RETRIEVE_ERROR);
+        asyncFetchStatus.post(API_RETRIEVE_ERROR);
         Log.e(LOG_TAG, "Error retrieving API service.");
         return "";
     }
@@ -60,15 +60,18 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String jokeData = result;
+        Log.e(LOG_TAG, "JOKE DATA: " + result);
         if(asyncCallback != null) {
             if(jokeData.isEmpty()) {
                 asyncFetchStatus.set(RETURNED_EMPTY);
                 jokeData = "";
             } else {
+                Log.e(LOG_TAG, "SETTING FETCH --> SUCCESS");
                 asyncFetchStatus.set(FETCH_SUCCESS);
-            } asyncCallback.processJokeData(jokeData);
+            }
+            asyncCallback.processJokeData(jokeData);
         }else{
-            Log.e(LOG_TAG, "AsyncCallback reference was not set correctly.");
+            Log.e(LOG_TAG, "AsyncCallback reference was not post correctly.");
         }
     }
 }

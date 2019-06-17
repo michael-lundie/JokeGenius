@@ -38,11 +38,8 @@ public abstract class ExtendableActivityFragment extends Fragment {
 
     private static final String LOG_TAG = ExtendableActivityFragment.class.getName();
 
-    @Inject
-    ViewModelProvider.Factory jokesViewModelFactory;
-
-    @Inject
-    AppUtils appUtils;
+    @Inject ViewModelProvider.Factory jokesViewModelFactory;
+    @Inject AppUtils appUtils;
 
     @BindView(R.id.button) protected Button mJokeButton;
     @BindView(R.id.endpoints_progress_bar) protected ProgressBar mProgressBar;
@@ -54,6 +51,7 @@ public abstract class ExtendableActivityFragment extends Fragment {
 
     private JokesViewModel viewModel;
     private FetchStatus fetchStatus;
+    private String jokeString;
 
     /** Required Empty constructor **/
     public ExtendableActivityFragment() { }
@@ -63,6 +61,8 @@ public abstract class ExtendableActivityFragment extends Fragment {
      * class without the need to override super.
      */
     public abstract void setBehaviors();
+
+    public abstract void setLaunchBehaviour();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,18 +83,20 @@ public abstract class ExtendableActivityFragment extends Fragment {
 
     /**
      * Launches the {@link JokePresenterActivity} setting retrieved data from API as intent extra.
-     * @param jokeData String data retrieved from API (or mock).
      */
-    private void launchJokePresenterActivity(String jokeData) {
+    public void launchJokePresenterActivity() {
         removeObservers();
         mProgressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), JokePresenterActivity.class);
-        intent.putExtra("joke", jokeData);
+        Log.e(LOG_TAG, "EXTRA DATA INPUT --> " + jokeString);
+        intent.putExtra("joke", jokeString);
         startActivity(intent);
+        // Reset the jokeString in preparation for another request
+        jokeString = null;
     }
 
     /**
-     * Button set-up
+     * Button post-up
      * TODO: Allow button to be clicked only once.
      */
     private void configureJokeButton() {
@@ -128,15 +130,17 @@ public abstract class ExtendableActivityFragment extends Fragment {
     }
 
     /**
-     * Performs action on any returned data from API and deals with any returned errors
+     * Performs action on any returned data from API and deals with any returned errors.
+     * This method is exposed and overridden by the FREE version of {@link ActivityFragment}.
      * @param jokeData returned data from API (or Mock).
      */
     private void processRequestReturn(String jokeData) {
         // Check that observer has changed, launch a new activity via intent or process errors.
         switch (fetchStatus) {
             case FETCH_SUCCESS:
-                launchJokePresenterActivity(jokeData);
-                break;
+                jokeString = jokeData;
+                Log.e(LOG_TAG, "FETCHED DATA: : " + jokeString);
+                setLaunchBehaviour();
             case RETURNED_EMPTY:
                 if(!appUtils.checkNetworkAccess()) {
                     displayErrorSnackbar(networkErrorString);
@@ -149,6 +153,7 @@ public abstract class ExtendableActivityFragment extends Fragment {
                 displayErrorSnackbar(generalErrorString);
                 break;
         }
+        mProgressBar.setVisibility(View.INVISIBLE);
         removeObservers();
     }
 

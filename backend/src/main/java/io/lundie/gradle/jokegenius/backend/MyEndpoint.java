@@ -27,5 +27,4 @@ public class MyEndpoint {
         response.setData(joker.getJoke());
         return response;
     }
-
 }

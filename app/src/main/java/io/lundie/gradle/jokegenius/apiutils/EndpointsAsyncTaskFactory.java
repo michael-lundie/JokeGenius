@@ -23,9 +23,10 @@ public class EndpointsAsyncTaskFactory {
      * Constructor for factory creation of {@link EndpointsAsyncTask}.
      * @param asyncCallback Reference to an implementation of {@link AsyncCallback}
      */
-    public void createEndpointsAsyncTask(AsyncCallback asyncCallback,
+    void createEndpointsAsyncTask(AsyncCallback asyncCallback,
                                          AsyncFetchStatus asyncFetchStatus) {
-        EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(myApiService, asyncCallback, asyncFetchStatus);
+        EndpointsAsyncTask asyncTask =
+                new EndpointsAsyncTask(myApiService, asyncCallback, asyncFetchStatus);
         asyncTask.execute();
     }
 }

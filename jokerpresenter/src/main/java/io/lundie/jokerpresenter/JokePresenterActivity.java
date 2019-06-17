@@ -6,11 +6,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class JokePresenterActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = JokePresenterActivity.class.getName();
 
     @BindView(R2.id.jokeView) TextView jokeTextView;
 
@@ -27,7 +30,11 @@ public class JokePresenterActivity extends AppCompatActivity {
         String joke ="No joke received via intent.";
 
         if(receivedIntent.hasExtra("joke")) {
-            joke = receivedIntent.getStringExtra("joke");
+            String extra = receivedIntent.getStringExtra("joke");
+            if (extra != null) {
+                joke = extra;
+            }
+            Log.e(LOG_TAG, "Joke Received: " + joke);
         }
 
         jokeTextView.setText(joke);
