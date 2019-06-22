@@ -111,7 +111,7 @@ public abstract class ExtendableActivityFragment extends Fragment {
         viewModel = ViewModelProviders.of(this, jokesViewModelFactory).get(JokesViewModel.class);
     }
 
-    /**
+    /**+
      * Configures LiveData observables, active for the duration of an API Request.
      * Important: Observers should be removed after a request is complete to prevent the creation
      * of multiple observers (and in turn, API Requests).
@@ -141,16 +141,17 @@ public abstract class ExtendableActivityFragment extends Fragment {
                 jokeString = jokeData;
                 Log.e(LOG_TAG, "FETCHED DATA: : " + jokeString);
                 setLaunchBehaviour();
+                break;
             case RETURNED_EMPTY:
                 if(!appUtils.checkNetworkAccess()) {
                     displayErrorSnackbar(networkErrorString);
                     break;
                 }
-            case API_RETRIEVE_ERROR:
-                displayErrorSnackbar(apiErrorString);
-                break;
             case IO_EXCEPTION_ERROR:
                 displayErrorSnackbar(generalErrorString);
+                break;
+            case API_RETRIEVE_ERROR:
+                displayErrorSnackbar(apiErrorString);
                 break;
         }
         mProgressBar.setVisibility(View.INVISIBLE);

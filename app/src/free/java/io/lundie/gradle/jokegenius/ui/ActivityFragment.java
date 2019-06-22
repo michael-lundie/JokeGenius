@@ -47,7 +47,6 @@ public class ActivityFragment extends ExtendableActivityFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

@@ -52,8 +52,8 @@ dependencies {
 
     //Libraries / Modules
     endpointsServer project(path: ':backend', configuration: 'endpoints')
-    implementation project(path: ":jokerlib", configuration:'default')
-    implementation project(path: ":jokerpresenter", configuration:'default')
+    implementation project(path: ":jokerlib", configuration: 'default')
+    implementation project(path: ":jokerpresenter", configuration: 'default')
 
     //Support Library Implementations
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
