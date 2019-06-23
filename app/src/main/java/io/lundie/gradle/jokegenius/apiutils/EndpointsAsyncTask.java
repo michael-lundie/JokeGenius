@@ -60,13 +60,11 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         String jokeData = result;
-        Log.e(LOG_TAG, "JOKE DATA: " + result);
         if(asyncCallback != null) {
             if(jokeData.isEmpty()) {
                 asyncFetchStatus.set(RETURNED_EMPTY);
                 jokeData = "";
             } else {
-                Log.e(LOG_TAG, "SETTING FETCH --> SUCCESS");
                 asyncFetchStatus.set(FETCH_SUCCESS);
             }
             asyncCallback.processJokeData(jokeData);

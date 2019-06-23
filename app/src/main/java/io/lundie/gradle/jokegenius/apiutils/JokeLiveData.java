@@ -40,7 +40,6 @@ public class JokeLiveData extends LiveData<String> implements AsyncCallback, Asy
     public void post(FetchStatus fetchStatus) {
         // Using postValue method so that status can be updated from a background thread (AsyncTask)
         fetchStatusLiveData.postValue(fetchStatus);
-        Log.e(LOG_TAG, "JOKE DATA: SETTING STATUS --> " + fetchStatus);
     }
 
     @Override
