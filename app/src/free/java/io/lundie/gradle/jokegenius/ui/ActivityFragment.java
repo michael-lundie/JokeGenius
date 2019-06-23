@@ -1,6 +1,7 @@
 package io.lundie.gradle.jokegenius.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import io.lundie.gradle.jokegenius.R;
+import io.lundie.gradle.jokegenius.utilities.AppUtils;
 
 public class ActivityFragment extends ExtendableActivityFragment {
 
@@ -26,6 +28,7 @@ public class ActivityFragment extends ExtendableActivityFragment {
 
     @Inject AdRequest adRequest;
     @Inject InterstitialAd interstitialAd;
+    @Inject AppUtils appUtils;
 
     @BindView(R.id.adView) AdView mAdView;
     @BindView(R.id.endpoints_progress_bar) protected ProgressBar mProgressBar;
@@ -39,7 +42,12 @@ public class ActivityFragment extends ExtendableActivityFragment {
 
     @Override
     public void setLaunchBehaviour() {
-        interstitialAd.show();
+        if(appUtils.checkInternetAccess()) {
+            Log.e(LOG_TAG, "INTERNET HAS ACCESS");
+            interstitialAd.show();
+        } else {
+            launchJokePresenterActivity();
+        }
     }
 
     @Override

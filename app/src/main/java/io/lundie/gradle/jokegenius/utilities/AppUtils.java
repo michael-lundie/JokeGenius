@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.net.InetAddress;
+
 import javax.inject.Inject;
 
 public class AppUtils {
@@ -15,7 +17,8 @@ public class AppUtils {
     }
 
     /**
-     * Checks to make sure the smart phone has access to the internet.
+     * Checks to make sure the smart phone has a network connection.
+     * NOTE: This test does not prove that internet access is available.
      * @return boolean
      */
     public boolean checkNetworkAccess() {
@@ -29,5 +32,18 @@ public class AppUtils {
         }
         //Connectivity manager is null so returning false.
         return false;
+    }
+
+    /**
+     * Method to check if phone has access to the internet.
+     * @return boolean
+     */
+    public boolean checkInternetAccess() {
+        try {
+            InetAddress address = InetAddress.getByName("google.com");
+            return !address.equals("");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

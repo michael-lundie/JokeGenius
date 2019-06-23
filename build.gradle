@@ -20,3 +20,26 @@ allprojects {
         google()
     }
 }
+
+task runAppEngine (dependsOn: "backend:appengineStart") {
+    doLast {
+        ">>>>>>>>> AppEngine Running <<<<<<<<<<"
+    }
+}
+
+task runConnectedTests {
+    println "######## Running Tests ########"
+    shouldRunAfter 'runAppEngine'
+    dependsOn ':app:connectedAndroidTest'
+    doLast {
+        println "######## Finished Testing ########"
+    }
+}
+
+task stopAppEngine {
+    shouldRunAfter 'runConnectedTests'
+    dependsOn ':backend:appengineStop'
+    doLast {
+        println "######## Server Stopped ########"
+    }
+}

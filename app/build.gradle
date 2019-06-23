@@ -28,6 +28,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [usesClearTextTraffic:"false"]
+        }
+        debug {
+            manifestPlaceholders = [usesClearTextTraffic:"true"]
         }
     }
     flavorDimensions "default"

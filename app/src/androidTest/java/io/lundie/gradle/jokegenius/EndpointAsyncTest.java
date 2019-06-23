@@ -40,8 +40,19 @@ public class EndpointAsyncTest {
         CompletableFuture<String> futureData = new CompletableFuture<>();
         CompletableFuture<FetchStatus> futureStatus = new CompletableFuture<>();
 
+        AsyncFetchStatus asyncFetchStatus = new AsyncFetchStatus() {
+            @Override
+            public void post(FetchStatus fetchStatus) {
+                futureStatus.complete(fetchStatus);
+            }
+
+            @Override
+            public void set(FetchStatus fetchStatus) {
+                futureStatus.complete(fetchStatus);
+            }
+        };
+
         AsyncCallback asyncCallback = futureData::complete;
-        AsyncFetchStatus asyncFetchStatus = futureStatus::complete;
 
         new EndpointsAsyncTask(
                 new ApiModule().providesMyApiService(), asyncCallback, asyncFetchStatus).execute();
