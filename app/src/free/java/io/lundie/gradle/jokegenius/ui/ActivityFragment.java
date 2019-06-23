@@ -1,7 +1,6 @@
 package io.lundie.gradle.jokegenius.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,11 @@ import dagger.android.support.AndroidSupportInjection;
 import io.lundie.gradle.jokegenius.R;
 import io.lundie.gradle.jokegenius.utilities.AppUtils;
 
+/**
+ * ## Free AppFlavour version
+ * Fragment extending {@link ExtendableActivityFragment}. Used to allow custom behavior
+ * implementations depending the use of free or paid app flavours.
+ */
 public class ActivityFragment extends ExtendableActivityFragment {
 
     private static final String LOG_TAG = ActivityFragment.class.getName();
@@ -40,10 +44,13 @@ public class ActivityFragment extends ExtendableActivityFragment {
         mAdView.loadAd(adRequest);
     }
 
+    /**
+     * Override method providing a custom launch behavior to display interstitial ads (if internet
+     * access is available)
+     */
     @Override
     public void setLaunchBehaviour() {
         if(appUtils.checkInternetAccess()) {
-            Log.e(LOG_TAG, "INTERNET HAS ACCESS");
             interstitialAd.show();
         } else {
             launchJokePresenterActivity();
@@ -70,6 +77,9 @@ public class ActivityFragment extends ExtendableActivityFragment {
         super.launchJokePresenterActivity();
     }
 
+    /**
+     * Method which configures {@link InterstitialAd} behaviors.
+     */
     private void configureInterstitialAd() {
         interstitialAd.loadAd(adRequest);
         interstitialAd.setAdListener(new AdListener() {

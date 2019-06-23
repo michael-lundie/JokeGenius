@@ -7,9 +7,9 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
-import io.lundie.gradle.jokegenius.injection.modules.FragmentsModule;
 import io.lundie.gradle.jokegenius.App;
 import io.lundie.gradle.jokegenius.injection.modules.AppModule;
+import io.lundie.gradle.jokegenius.injection.modules.FragmentsModule;
 
 @Singleton
 @Component(modules = {  AndroidSupportInjectionModule.class,

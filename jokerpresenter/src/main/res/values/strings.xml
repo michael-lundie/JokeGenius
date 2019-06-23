@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">JokerPresenter</string>
     <string name="title_activity_joke_presenter">JokePresenterActivity</string>
+    <string name="no_joke_received">No joke was received via intent.</string>
 </resources>

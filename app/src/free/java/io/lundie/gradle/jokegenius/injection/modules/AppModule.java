@@ -10,6 +10,11 @@ import dagger.Provides;
 import dagger.Reusable;
 import io.lundie.gradle.jokegenius.utilities.AppConstants;
 
+/**
+ * Primary Dagger AppModule extended from {@link ExtendableAppModule}.
+ * Note this is to support additional dependencies ({@link AdRequest} and {@link InterstitialAd})
+ * necessary for google ads implementations in the 'free app version'
+ */
 @Module
 public class AppModule extends ExtendableAppModule {
 

@@ -2,6 +2,7 @@ package io.lundie.gradle.jokegenius.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public abstract class ExtendableActivityFragment extends Fragment {
     private JokesViewModel viewModel;
     private FetchStatus fetchStatus;
     private String jokeString;
+    private long previousClickTimeStamp;
 
     /** Required Empty constructor **/
     public ExtendableActivityFragment() { }
@@ -81,6 +83,12 @@ public abstract class ExtendableActivityFragment extends Fragment {
         setBehaviors();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mJokeButton.setEnabled(true); // Re-enables the joke button.
+    }
+
     /**
      * Launches the {@link JokePresenterActivity} setting retrieved data from API as intent extra.
      */
@@ -88,20 +96,27 @@ public abstract class ExtendableActivityFragment extends Fragment {
         removeObservers();
         mProgressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), JokePresenterActivity.class);
-        Log.e(LOG_TAG, "EXTRA DATA INPUT --> " + jokeString);
         intent.putExtra("joke", jokeString);
         startActivity(intent);
-        // Reset the jokeString in preparation for another request
-        jokeString = null;
+        jokeString = null; // Reset the jokeString in preparation for another request
     }
 
     /**
-     * Button post-up
-     * TODO: Allow button to be clicked only once.
+     * Method which manages the configuration of the 'fetch joke' button.
      */
     private void configureJokeButton() {
-            mProgressBar.setVisibility(View.VISIBLE);
-            configureJokeObserver();
+        // Since we are using LiveData, we want to be really careful not to set off multiple
+        // observers with multiple clicks.
+        // Using a method from https://stackoverflow.com/a/16514644 .
+        if (timeSinceLastClicked() < 1000) { return; }
+        previousClickTimeStamp = SystemClock.elapsedRealtime();
+        mProgressBar.setVisibility(View.VISIBLE);
+        mJokeButton.setEnabled(false);
+        configureJokeObserver();
+    }
+
+    private long timeSinceLastClicked() {
+        return SystemClock.elapsedRealtime() - previousClickTimeStamp;
     }
 
     /**
@@ -115,7 +130,6 @@ public abstract class ExtendableActivityFragment extends Fragment {
      * Configures LiveData observables, active for the duration of an API Request.
      * Important: Observers should be removed after a request is complete to prevent the creation
      * of multiple observers (and in turn, API Requests).
-     * TODO: Is there a way of enforcing this behaviour through means of abstraction?
      */
     private void configureJokeObserver() {
         // Let's start by observing the fetching process of our API request, this allows us
@@ -139,8 +153,7 @@ public abstract class ExtendableActivityFragment extends Fragment {
         switch (fetchStatus) {
             case FETCH_SUCCESS:
                 jokeString = jokeData;
-                Log.e(LOG_TAG, "FETCHED DATA: : " + jokeString);
-                setLaunchBehaviour();
+                setLaunchBehaviour(); // Launch behavior which can be set by extended class
                 break;
             case RETURNED_EMPTY:
                 if(!appUtils.checkNetworkAccess()) {

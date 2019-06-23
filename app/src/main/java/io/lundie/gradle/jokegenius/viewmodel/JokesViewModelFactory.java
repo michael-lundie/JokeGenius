@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+/**
+ *  ViewModel Factory class. Using Googles' recommended implementation.
+ */
 @Singleton
 public class JokesViewModelFactory implements ViewModelProvider.Factory {
 
